@@ -24,7 +24,7 @@ public class CustomerOrdersWsImpl implements CustomerOrdersPortType {
 	}
 	
 	public void init() {
-		List<Order> orders = new ArrayList();
+		List<Order> orders = new ArrayList<>();
 		Order order = new Order();
 		order.setId(BigInteger.valueOf(1));
 		
@@ -40,15 +40,28 @@ public class CustomerOrdersWsImpl implements CustomerOrdersPortType {
 	}
 
 	@Override
-	public GetOrdersResponse getOrders(GetOrdersRequest parameters) {
-		// TODO Auto-generated method stub
-		return null;
+	public GetOrdersResponse getOrders(GetOrdersRequest request) {
+		BigInteger customerId = request.getCustomerId();
+		List<Order> orders = customerOrders.get(customerId);
+		
+		GetOrdersResponse response = new GetOrdersResponse();
+		response.getOrder().addAll(orders);
+		
+		return response;
 	}
 
 	@Override
-	public CreateOrdersResponse createOrders(CreateOrdersRequest parameters) {
-		// TODO Auto-generated method stub
-		return null;
+	public CreateOrdersResponse createOrders(CreateOrdersRequest request) {
+		BigInteger customerId = request.getCustomerId();
+		Order order = new Order();
+		
+		List<Order> orders = customerOrders.get(customerId);
+		orders.add(order);
+		
+		CreateOrdersResponse response = new CreateOrdersResponse();
+		response.setResult(true);
+		
+		return response;
 	}
 
 }
